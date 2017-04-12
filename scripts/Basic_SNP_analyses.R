@@ -1,6 +1,6 @@
 #Scripts for taking a 0,1,2 genotype matrix and running basic analyses (PCA, FST)
 
-setwd('~/Desktop/SNPcalling_from_RNAseq')
+setwd('~/Desktop/SNPcalling_tutorial')
 snps<-read.delim('ahy_snps.012',header=F,na=-1,row.names=1)
 pos<-read.delim('ahy_snps.012.pos',header=F)
 indv<-read.delim('ahy_snps.012.indv',header=F)
@@ -15,7 +15,8 @@ meta<-read.delim('meta.txt')
 #plot a PCA with colors that represent populations
 pc.out<-prcomp(snps)
 summary(pc.out)
-plot(pc.out$x[,1],pc.out$x[,2],col=meta$Pool)
+plot(pc.out$x[,1],pc.out$x[,2],col=meta$Pool,xlab='PC1',ylab='PC2',pch=19)
+legend('topright',legend=unique(meta$Pool),fill=c('black','red','green'))
 
 install.packages('hierfstat')
 library(hierfstat)
@@ -38,6 +39,6 @@ fst.out$FST
 
 #look at fst distribution across sites
 site.fst<-fst.out$per.loc[['FST']]
-hist(site.fst)
+hist(site.fst,xlab='Fst',ylab='Counts',main='Distribution of Fst between PC1 clusters',col='grey')
 
 
